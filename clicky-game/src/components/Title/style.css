@@ -1,8 +1,9 @@
 .title {
-  width: 100%;
+  width: 120%;
   text-align: center;
   font-size: 3rem;
-  text-decoration: underline;
-  color: #2A77AE;
+  color: #542344;
   margin-bottom: 50px;
+  background-color: #BFD1E5;
+  padding: 5px
 }
