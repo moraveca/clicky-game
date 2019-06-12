@@ -15,7 +15,8 @@ class App extends Component {
     currentScore: 0,
     won: 0,
     lost: 0,
-    highScore: 0
+    highScore: 0,
+    cheatCode: false
   };
 
   shuffle = friends => {
@@ -39,10 +40,10 @@ class App extends Component {
 
   checkGuesses = id => {
     console.log("guesses: ", this.state.guesses);
-    console.log("this pick: ", id)
+    // console.log("this pick: ", id)
     if (this.state.guesses.length === 0) {
       this.continueGame(id);
-    } else if (this.state.guesses.length === 12) {
+    } else if (this.state.guesses.length === 11) {
       this.wonGame();
     } else {
       for (let i = 0; i < this.state.guesses.length; i++) {
@@ -56,24 +57,27 @@ class App extends Component {
   };
 
   wonGame = () => {
-    console.log("won");
+    // console.log("won");
+    alert("You WON!")
     this.setState({ won: this.state.won + 1});
     this.resetGame()
   }
 
   lostGame = () => {
-    console.log("lost");
+    // console.log("lost");
+    alert("You LOST!")
     this.setState({ highScore: this.state.currentScore});
     this.setState({ lost: this.state.lost + 1 });
     this.resetGame()
   };
 
   continueGame = id => {
-    console.log("continued")
-    this.state.guesses.push(id);
+    // console.log("continued")
     // console.log("guessesArray: ", this.state.guesses);
 
-    this.setState({ currentScore: this.state.currentScore + 1 })
+    this.setState({ 
+      guesses: [...this.state.guesses, id],
+      currentScore: this.state.currentScore + 1 })
     // console.log("currentScore: ", this.state.currentScore);
 
     this.shuffle(friends);
@@ -86,9 +90,14 @@ class App extends Component {
     this.shuffle(friends)
   }
 
+  cheatCode = event => {
+    this.setState({ cheatCode: event.target.checked})
+  }
+
   render() {
     return (
       <Wrapper>
+        <input type="checkbox" style={{display: "none"}} onChange={this.cheatCode} />
         <Title>Clicky-Shuffle Game</Title>
         <CurrentScore>Current Game Score: {this.state.currentScore}</CurrentScore>
         <HighestScore>Highest Score: {this.state.highScore}</HighestScore>
@@ -103,6 +112,7 @@ class App extends Component {
             occupation={friend.occupation}
             location={friend.location}
             checkGuesses={this.checkGuesses}
+            selected={this.state.cheatCode ? this.state.guesses.includes(friend.id) : false}
           />
           // </CardDeck>
         ))}
